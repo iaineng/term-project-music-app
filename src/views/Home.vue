@@ -1,18 +1,248 @@
 <template>
+  <div style="display: flex; justify-content: space-between; align-items: center; position: sticky;top: 0;background-color: white;z-index: 99999;">
+    <div style="margin-left: 20px;font-size: 14px;" @click="gotoLogin">
+      <div v-if="userInfo">
+        <img :src="userInfo.profile.avatarUrl" style="width: 44px; height: 44px; border-radius: 50%;" />
+      </div>
+      <div v-else>登录</div>
+    </div>
+    <form action="/" style="flex: 1;margin-right: 12px;">
+      <van-search
+          v-model="value"
+          show-action
+          placeholder="请输入搜索关键词"
+          @search="onSearch"
+          @cancel="onCancel"
+      />
+    </form>
+  </div>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div style="margin: 0 20px;border-radius: 20px;overflow: hidden;">
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="(item,index) in recommendPics" :key="index">
+          <img :src="item"/>
+        </van-swipe-item>
+      </van-swipe>
+    </div>
+    <div class="cate">
+      <div class="singer flex" @click="gotoSinger">歌手分类</div>
+      <div class="list flex" @click="gotoList">歌单分类</div>
+      <div class="list flex">我的位置</div>
+      <div class="list flex">离线消息</div>
+    </div>
+    <div class="song-wrap">
+      <div class="song" v-for="(item,index) in recommendSongs" :key="item.id">
+        <div class="flex idx">{{ index + 1 }}</div>
+        <div class="song-item">
+          <div class="name">{{ item.name }}</div>
+          <div class="artists" v-if="item.song" @click="gotoPlay(item.id)">
+            <span v-for="(item1,index1) in item.song.artists" :key="item1.id">
+              {{ item1.name }}
+              <span v-if="index1!==item.song.artists.length-1">-</span>
+            </span>
+          </div>
+        </div>
+        <div class="flex imgwrap" @click="playsong(item.id)">
+          <img src="../assets/pause.png" v-if="curItemId===item.id"/>
+          <img src="../assets/play.png" v-else/>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <audio :src="curSongUrl" autoplay loop controls></audio>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
-  }
+  components: {},
+  setup() {
+    let { proxy } = getCurrentInstance()
+    const router = useRouter()
+    const value = ref('')
+    const data = reactive({
+      recommendSongs: [],
+      recommendLists: [],
+      recommendPics: [],
+      curSongUrl: '',
+      curItemId: '',
+      userInfo: null,
+    })
+
+    const onSearch = (val) => {
+      console.log(val)
+      if (val === '') return
+      proxy.$axios.get('http://198.44.187.171:3000/cloudsearch?keywords=' + val).then(res => {
+        console.log(res)
+        data.recommendSongs = res.data.result.songs
+      })
+    }
+    const onCancel = () => {
+      console.log('cancel')
+      data.recommendSongs = JSON.parse(localStorage.getItem('recommend'))
+    }
+    // 推荐歌单
+    const getdata = () => {
+      proxy.$axios.get('http://198.44.187.171:3000/personalized?limit=10').then(res => {
+        console.log(res)
+        data.recommendLists = res.data.result
+      })
+      // 推荐音乐
+      proxy.$axios.get('http://198.44.187.171:3000/personalized/newsong?limit=10').then(res => {
+        console.log(res)
+        data.recommendSongs = res.data.result
+      })
+      // 获取banner
+      proxy.$axios.get('http://198.44.187.171:3000/banner?type=1').then(res => {
+        console.log(res)
+        const temp = res.data.banners.map(item => item.pic)
+        data.recommendPics = temp.length > 5 ? temp.slice(0, 5) : temp
+        localStorage.setItem('recommend', JSON.stringify(data.recommendSongs))
+      })
+    }
+
+    const playsong = (id) => {
+      proxy.$axios.get(`http://198.44.187.171:3000/song/url?id=${id}`).then(res => {
+        console.log(res)
+        if (data.curSongUrl === res.data.data[0].url) {
+          data.curSongUrl = ''
+        }
+        data.curSongUrl = res.data.data[0].url
+        data.curItemId = res.data.data[0].id
+      })
+    }
+    // 跳转到歌手分类页面
+    const gotoSinger = () => {
+      router.push({ path: 'singer' })
+    }
+    // 跳转到歌单分类页面
+    const gotoList = (id) => {
+      router.push({ path: 'list' })
+    }
+    // 跳转至歌曲播放页面
+    const gotoPlay = (id) => {
+      router.push(`/play?id=${id}`)
+    }
+
+    const gotoLogin = () => {
+      router.push('/login')
+    }
+
+    onMounted(() => {
+      getdata()
+
+      let userInfo = localStorage.getItem('userInfo')
+      if (userInfo) {
+        userInfo = JSON.parse(userInfo)
+        console.log(userInfo)
+
+        data.userInfo = userInfo
+      }
+    })
+    return {
+      value,
+      onSearch,
+      onCancel,
+      ...toRefs(data),
+      playsong,
+      gotoSinger,
+      gotoList,
+      gotoPlay,
+      gotoLogin,
+    }
+  },
 }
 </script>
+<style lang="less" scoped>
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-swipe .van-swipe-item {
+  width: 100%;
+  height: auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.cate {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  width: 90%;
+  border: 1px solid #eee;
+  box-shadow: 10px 10px 10px cornflowerblue;
+  margin-left: 20px;
+
+  .singer,
+  .list {
+    width: 70px;
+    height: 70px;
+    background: cornflowerblue;
+    border-radius: 50%;
+  }
+}
+
+.song {
+  display: flex;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgb(111, 188, 207);
+
+  .idx {
+    width: 30px;
+    color: rgb(124, 44, 230);
+  }
+
+  .song-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 10px;
+
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .artists {
+      font-size: 12px;
+      color: rgb(138, 135, 135);
+      margin-top: 6px;
+    }
+  }
+
+  .imgwrap {
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+
+  audio {
+    width: 100%;
+  }
+}
+</style>

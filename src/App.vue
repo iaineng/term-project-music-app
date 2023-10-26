@@ -1,30 +1,38 @@
+<script>
+if (plus) {
+  document.addEventListener('plusready', () => {
+    let first = null
+    const webview = plus.webview.currentWebview()
+    plus.key.addEventListener('backbutton', () => {
+      webview.canBack((e) => {
+        if (e.canBack) {
+          webview.back()
+          return
+        }
+
+        if (!first) {
+          first = new Date().getTime()
+          plus.nativeUI.toast('再按一次退出应用', { duration: 'short' })
+          setTimeout(() => {
+            first = null
+          }, 1000)
+          return
+        }
+
+        if (new Date().getTime() - first < 1000) {
+          plus.runtime.quit()
+          webview.close()
+        }
+      })
+    })
+  })
+}
+</script>
+
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <router-view/>
 </template>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
