@@ -5,6 +5,9 @@ import List from '../views/List.vue'
 import Allsongs from '../views/Allsongs.vue'
 import Play from '../views/Play.vue'
 import Login from '@/views/Login.vue'
+import MyPosition from '@/views/MyPosition.vue'
+import OfflineMessage from '@/views/OfflineMessage.vue'
+
 const routes = [
   {
     path: '/',
@@ -35,6 +38,16 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/myPosition',
+    name: 'MyPosition',
+    component: MyPosition
+  },
+  {
+    path: '/offlineMessage',
+    name: 'OfflineMessage',
+    component: OfflineMessage
   }
 ]
 

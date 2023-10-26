@@ -27,8 +27,8 @@
     <div class="cate">
       <div class="singer flex" @click="gotoSinger">歌手分类</div>
       <div class="list flex" @click="gotoList">歌单分类</div>
-      <div class="list flex">我的位置</div>
-      <div class="list flex">离线消息</div>
+      <div class="list flex" @click="gotoMyPosition">我的位置</div>
+      <div class="list flex" @click="gotoOfflineMessage">离线消息</div>
     </div>
     <div class="song-wrap">
       <div class="song" v-for="(item,index) in recommendSongs" :key="item.id">
@@ -133,6 +133,14 @@ export default {
       router.push('/login')
     }
 
+    const gotoMyPosition = () => {
+      router.push('/myPosition')
+    }
+
+    const gotoOfflineMessage = () => {
+      router.push('/offlineMessage')
+    }
+
     onMounted(() => {
       getdata()
 
@@ -154,6 +162,8 @@ export default {
       gotoList,
       gotoPlay,
       gotoLogin,
+      gotoMyPosition,
+      gotoOfflineMessage,
     }
   },
 }

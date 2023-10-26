@@ -1,36 +1,41 @@
 <script>
-if (plus) {
-  document.addEventListener('plusready', () => {
-    let first = null
-    const webview = plus.webview.currentWebview()
-    plus.key.addEventListener('backbutton', () => {
-      webview.canBack((e) => {
-        if (e.canBack) {
-          webview.back()
-          return
-        }
+const onPlusReady = () => {
+  let backTime = null
+  const webview = plus.webview.currentWebview()
 
-        if (!first) {
-          first = new Date().getTime()
-          plus.nativeUI.toast('再按一次退出应用', { duration: 'short' })
-          setTimeout(() => {
-            first = null
-          }, 1000)
-          return
-        }
+  window.navigator.geolocation.getCurrentPosition = plus.geolocation.getCurrentPosition
 
-        if (new Date().getTime() - first < 1000) {
-          plus.runtime.quit()
-          webview.close()
-        }
-      })
+  plus.key.addEventListener('backbutton', () => {
+    webview.canBack((e) => {
+      if (e.canBack) {
+        webview.back()
+        return
+      }
+
+      if (!backTime) {
+        backTime = new Date().getTime()
+        plus.nativeUI.toast('再按一次退出应用', { duration: 'short' })
+        setTimeout(() => {
+          backTime = null
+        }, 1000)
+        return
+      }
+
+      if (new Date().getTime() - backTime < 1000) {
+        plus.runtime.quit()
+        webview.close()
+      }
     })
   })
 }
+
+document.addEventListener('plusready', onPlusReady)
 </script>
 
 <template>
-  <router-view/>
+  <Suspense>
+    <router-view/>
+  </Suspense>
 </template>
 
 <style lang="less">
