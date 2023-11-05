@@ -1,33 +1,31 @@
 <template>
-  <div id="app">
-    <div class="login-page">
-      <div class="form">
-        <h1>登录</h1>
-        <form @submit.prevent="login">
-          <input type="text" id="phone" v-model="phone" placeholder="手机号" required/>
-          <input type="password" id="password" v-model="password" placeholder="密码" required/>
-          <button type="submit">login</button>
-        </form>
-      </div>
+  <div class="login-page" style="min-height: 100vh; background: white;">
+    <div class="form">
+      <h1>登录</h1>
+      <form @submit.prevent="login">
+        <input type="text" id="phone" v-model="phone" placeholder="手机号" required/>
+        <input type="password" id="password" v-model="password" placeholder="密码" required/>
+        <button type="submit">login</button>
+      </form>
     </div>
   </div>
 </template>
 <script setup>
 import router from '@/router'
-import { ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 import axios from 'axios'
 
+const { proxy } = getCurrentInstance()
 const phone = ref('')
 const password = ref('')
 
 const login = async () => {
-  const response = await axios.get('http://198.44.187.171:3000/login/cellphone', {
+  const response = await axios.get(`${proxy.$apiBaseUrl}/login/cellphone`, {
     params: {
       phone: phone.value,
       password: password.value,
     },
   })
-  console.log(response.data)
   localStorage.setItem(
       'userInfo', JSON.stringify(response.data)
   )

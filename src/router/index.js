@@ -15,37 +15,37 @@ const routes = [
     component: Home
   },
   {
-    path: '/singer',
+    path: '/home/singer',
     name: 'Singer',
     component: Singer
   },
   {
-    path: '/list',
+    path: '/home/list',
     name: 'List',
     component: List
   },
   {
-    path: '/allsongs',
+    path: '/home/singer/allsongs',
     name: 'Allsongs',
     component: Allsongs
   },
   {
-    path: '/play',
+    path: '/home/play',
     name: 'Play',
     component: Play
   },
   {
-    path: '/login',
+    path: '/home/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/myPosition',
+    path: '/home/myPosition',
     name: 'MyPosition',
     component: MyPosition
   },
   {
-    path: '/offlineMessage',
+    path: '/home/offlineMessage',
     name: 'OfflineMessage',
     component: OfflineMessage
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="singer">
+  <div class="singer" style="min-height: 100vh; background: white;">
     <div class="flex selectbtn">
       <van-button type="primary" @click="setType(-1)">全部</van-button>
       <van-button type="success" @click="setType(1)">男歌手</van-button>
@@ -36,23 +36,21 @@ export default {
 
     // 全部歌手
     const getdata = (type = -1) => {
-      proxy.$axios.get(`http://198.44.187.171:3000/artist/list?type=${type}&area=-1`).then(res => {
-        console.log(res)
+      proxy.$axios.get(`${proxy.$apiBaseUrl}/artist/list?type=${type}&area=-1`).then(res => {
         data.singers = res.data.artists;
       });
     }
 
     // 切换歌手类别
     const setType = (type) => {
-      proxy.$axios.get(`http://198.44.187.171:3000/artist/list?type=${type}&area=-1`).then(res => {
-        console.log(res)
+      proxy.$axios.get(`${proxy.$apiBaseUrl}/artist/list?type=${type}&area=-1`).then(res => {
         data.singers = res.data.artists;
       });
     }
 
     // 跳转到歌手全部歌曲页面
     const gotoAllsongs = (id) => {
-      router.push(`/allsongs?id=${id}`)
+      router.push(`/home/singer/allsongs?id=${id}`)
     }
 
     onMounted(getdata)

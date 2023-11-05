@@ -23,8 +23,7 @@ export default {
       curItemId: ''
     })
     const getdata = () => {
-      proxy.$axios.get(`http://198.44.187.171:3000/song/url?id=${id}`).then(res => {
-        console.log(res)
+      proxy.$axios.get(`${proxy.$apiBaseUrl}/song/url?id=${id}`).then(res => {
         if (data.curSongUrl === res.data.data[0].url) {
           data.curSongUrl = ''
         }

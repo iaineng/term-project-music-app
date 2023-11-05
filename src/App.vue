@@ -33,11 +33,49 @@ document.addEventListener('plusready', onPlusReady)
 </script>
 
 <template>
-  <Suspense>
-    <router-view/>
-  </Suspense>
+  <router-view v-slot="{ Component, route }">
+    <transition :name="route.meta.transition" mode="out-in">
+      <keep-alive>
+        <component :is="Component" :key="route.path"></component>
+      </keep-alive>
+    </transition>
+  </router-view>
 </template>
 
-<style lang="less">
+<style>
+.slide-right-enter-active,
+.slide-left-enter-active,
+.slide-right-leave-active,
+.slide-left-leave-active {
+  transition: all .2s ease;
+}
 
+.slide-right-enter-active {
+  transform: translateX(-100%);
+}
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(-50%);
+}
+.slide-right-enter-to {
+  transform: translateX(0);
+}
+.slide-right-leave-to {
+  z-index: 100;
+  transform: translateX(100%);
+}
+
+.slide-left-enter-active {
+  transform: translateX(100%);
+}
+.slide-left-enter-from {
+  z-index: 100;
+  transform: translateX(100%);
+}
+.slide-left-enter-to {
+  transform: translateX(0);
+}
+.slide-left-leave-to {
+  opacity: 0.4;
+}
 </style>

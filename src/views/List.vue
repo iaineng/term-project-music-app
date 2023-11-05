@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" style="min-height: 100vh; background: white;">
     <div class="cate">
       <div>{{categories[0]}}</div>
       <div>{{categories[1]}}</div>
@@ -24,8 +24,7 @@ export default {
       recommendLists: [],
     })
     const getdata = () => {
-      proxy.$axios.get('http://198.44.187.171:3000/playlist/catlist').then(res => {
-        console.log(res)
+      proxy.$axios.get(`${proxy.$apiBaseUrl}/playlist/catlist`).then(res => {
         data.categories = res.data.categories;
         data.recommendLists = res.data.sub;
       });

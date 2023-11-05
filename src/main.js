@@ -9,6 +9,13 @@ import 'vant/lib/index.css';
 const app = createApp(App)
 
 app.config.globalProperties.$axios = axios
+app.config.globalProperties.$apiBaseUrl = 'http://192.168.235.157:3000'
+
+router.afterEach((to, from) => {
+  const toDepth = to.path.split('/').length
+  const fromDepth = from.path.split('/').length
+  to.meta.transition = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+})
 
 app.use(router)
 app.use(Vant);
