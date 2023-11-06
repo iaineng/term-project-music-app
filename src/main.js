@@ -8,6 +8,17 @@ import 'vant/lib/index.css'
 
 const app = createApp(App)
 
+axios.interceptors.request.use(config => {
+  if (config.method === 'get') {
+    config.params = {
+      realIp: '171.220.159.204',
+      ...config.params
+    }
+  }
+  return config
+})
+
+
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$apiBaseUrl = 'https://term-project-h5-api.kejinginsurance.icu'
 
