@@ -1,53 +1,49 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Singer from '../views/Singer.vue'
-import List from '../views/List.vue'
-import Allsongs from '../views/Allsongs.vue'
-import Play from '../views/Play.vue'
-import Login from '@/views/Login.vue'
-import MyPosition from '@/views/MyPosition.vue'
-import OfflineMessage from '@/views/OfflineMessage.vue'
 
 const routes = [
   {
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue'),
   },
   {
     path: '/home/singer',
     name: 'Singer',
-    component: Singer
+    component: () => import('../views/Singer.vue')
   },
   {
     path: '/home/list',
     name: 'List',
-    component: List
+    component: () => import('../views/List.vue')
   },
   {
     path: '/home/singer/allsongs',
     name: 'Allsongs',
-    component: Allsongs
+    component: () => import('../views/Allsongs.vue')
   },
   {
     path: '/home/play',
     name: 'Play',
-    component: Play
+    component: () => import('../views/Play.vue')
   },
   {
     path: '/home/login',
     name: 'Login',
-    component: Login
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/home/myPosition',
     name: 'MyPosition',
-    component: MyPosition
+    component: () => import('../views/MyPosition.vue')
   },
   {
     path: '/home/offlineMessage',
     name: 'OfflineMessage',
-    component: OfflineMessage
+    component: () => import('../views/OfflineMessage.vue')
   }
 ]
 

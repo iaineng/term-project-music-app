@@ -1,9 +1,9 @@
 <template>
-  <div style="min-height: 100vh; background: white;">
-    <div style="display: flex; justify-content: space-between; align-items: center; position: sticky;top: 0;background-color: white;z-index: 99999;">
-      <div style="margin-left: 20px;font-size: 14px;" @click="gotoLogin">
+  <div class="min-h-screen bg-white">
+    <div class="flex justify-between items-center pos-sticky top-0 bg-white z-99999">
+      <div class="ml-20px font-size-14px" @click="gotoLogin">
         <div v-if="userInfo">
-          <img :src="userInfo.profile.avatarUrl" style="width: 44px; height: 44px; border-radius: 50%;" />
+          <img :src="userInfo.profile.avatarUrl" style="width: 44px; height: 44px; border-radius: 50%;"/>
         </div>
         <div v-else>登录</div>
       </div>
@@ -26,14 +26,14 @@
         </van-swipe>
       </div>
       <div class="cate">
-        <div class="singer flex" @click="gotoSinger">歌手分类</div>
-        <div class="list flex" @click="gotoList">歌单分类</div>
-        <div class="list flex" @click="gotoMyPosition">我的位置</div>
-        <div class="list flex" @click="gotoOfflineMessage">离线留言</div>
+        <div class="singer flex-center" @click="gotoSinger">歌手分类</div>
+        <div class="list flex-center" @click="gotoList">歌单分类</div>
+        <div class="list flex-center" @click="gotoMyPosition">我的位置</div>
+        <div class="list flex-center" @click="gotoOfflineMessage">离线留言</div>
       </div>
       <div class="song-wrap">
         <div class="song" v-for="(item,index) in recommendSongs" :key="item.id">
-          <div class="flex idx">{{ index + 1 }}</div>
+          <div class="flex-center idx">{{ index + 1 }}</div>
           <div class="song-item">
             <div class="name">{{ item.name }}</div>
             <div class="artists" v-if="item.song" @click="gotoPlay(item.id)">
@@ -43,7 +43,7 @@
             </span>
             </div>
           </div>
-          <div class="flex imgwrap" @click="playsong(item.id)">
+          <div class="flex-center imgwrap" @click="playsong(item.id)">
             <img src="../assets/pause.png" v-if="curItemId===item.id"/>
             <img src="../assets/play.png" v-else/>
           </div>
@@ -73,7 +73,7 @@ export default {
       recommendPics: [],
       curSongUrl: '',
       curItemId: '',
-      userInfo: null,
+      userInfo: null
     })
 
     const onSearch = (val) => {
@@ -162,7 +162,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.flex {
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;

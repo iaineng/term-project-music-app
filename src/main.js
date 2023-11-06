@@ -2,14 +2,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import Vant from 'vant';
-import 'vant/lib/index.css';
-
+import Vant from 'vant'
+import 'virtual:uno.css'
+import 'vant/lib/index.css'
 
 const app = createApp(App)
 
 app.config.globalProperties.$axios = axios
-app.config.globalProperties.$apiBaseUrl = 'http://192.168.235.157:3000'
+app.config.globalProperties.$apiBaseUrl = 'https://term-project.kejinginsurance.icu'
 
 router.afterEach((to, from) => {
   const toDepth = to.path.split('/').length
@@ -18,5 +18,5 @@ router.afterEach((to, from) => {
 })
 
 app.use(router)
-app.use(Vant);
+app.use(Vant)
 app.mount('#app')

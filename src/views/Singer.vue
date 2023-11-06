@@ -1,6 +1,6 @@
 <template>
   <div class="singer" style="min-height: 100vh; background: white;">
-    <div class="flex selectbtn">
+    <div class="flex-center selectbtn">
       <van-button type="primary" @click="setType(-1)">全部</van-button>
       <van-button type="success" @click="setType(1)">男歌手</van-button>
       <van-button type="warning" @click="setType(2)">女歌手</van-button>
@@ -24,7 +24,7 @@
 import { reactive, toRefs, getCurrentInstance, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 export default {
-  name: 'Home',
+  name: 'Singer',
   components: {
   },
   setup () {
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.flex {
+.flex-center {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

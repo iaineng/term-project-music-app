@@ -1,4 +1,23 @@
-<script>
+<script setup>
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const cacheViews = reactive(new Set())
+
+router.beforeEach((to, from, next) => {
+  if (from.name) {
+    if (to.path.split('/').length > from.path.split('/').length) {
+      cacheViews.add(from.name)
+    } else {
+      cacheViews.delete(from.name)
+    }
+  }
+  console.log(cacheViews)
+  next()
+})
+
 const onPlusReady = () => {
   let backTime = null
   const webview = plus.webview.currentWebview()
@@ -35,8 +54,8 @@ document.addEventListener('plusready', onPlusReady)
 <template>
   <router-view v-slot="{ Component, route }">
     <transition :name="route.meta.transition" mode="out-in">
-      <keep-alive>
-        <component :is="Component" :key="route.path"></component>
+      <keep-alive :include="Array.from(cacheViews)">
+        <component :is="Component" :key="route.path"/>
       </keep-alive>
     </transition>
   </router-view>
@@ -53,13 +72,16 @@ document.addEventListener('plusready', onPlusReady)
 .slide-right-enter-active {
   transform: translateX(-100%);
 }
+
 .slide-right-enter-from {
   opacity: 0;
   transform: translateX(-50%);
 }
+
 .slide-right-enter-to {
   transform: translateX(0);
 }
+
 .slide-right-leave-to {
   z-index: 100;
   transform: translateX(100%);
@@ -68,13 +90,16 @@ document.addEventListener('plusready', onPlusReady)
 .slide-left-enter-active {
   transform: translateX(100%);
 }
+
 .slide-left-enter-from {
   z-index: 100;
   transform: translateX(100%);
 }
+
 .slide-left-enter-to {
   transform: translateX(0);
 }
+
 .slide-left-leave-to {
   opacity: 0.4;
 }
