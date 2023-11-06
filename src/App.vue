@@ -66,6 +66,7 @@ document.addEventListener('plusready', onPlusReady)
 :root {
   --van-nav-bar-icon-color: black !important;
   --van-nav-bar-arrow-size: 20px !important;
+  --van-floating-bubble-background: rgba(96, 165, 250) !important;
 }
 
 .slide-right-enter-active,

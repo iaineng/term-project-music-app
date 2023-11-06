@@ -239,7 +239,8 @@ const sendVerifyCode = async () => {
               />
             </div>
             <div class="mt-16px px-16px w-full box-border pos-relative">
-              <icon icon="fluent:password-16-filled" class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
+              <icon icon="fluent:password-16-filled"
+                    class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
               <input
                   v-model="verifyCode"
                   placeholder="请输入验证码"

@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-white">
-    <div class="flex justify-between items-center pos-sticky top-0 bg-white z-99999">
-      <div class="ml-16px font-size-14px" @click="gotoLogin">
+    <div class="flex justify-between items-center pos-sticky top-0 bg-white z-1">
+      <div class="ml-16px font-size-14px" @click="onLoginClick">
         <div v-if="userInfo">
-          <img :src="userInfo.profile.avatarUrl" class="w-34px h-34px b-rd-50%" />
+          <img :src="userInfo.profile.avatarUrl" class="w-34px h-34px b-rd-50%"/>
         </div>
         <div v-else>登录</div>
       </div>
@@ -27,19 +27,19 @@
       </div>
       <div class="flex mx-16px py-16px justify-between">
         <div class="flex flex-col items-center justify-center" @click="gotoSinger">
-          <Icon class="font-size-40px color-blue" icon="solar:microphone-bold" />
+          <Icon class="font-size-40px color-blue" icon="solar:microphone-bold"/>
           <div class="font-size-12px color-black mt-6px">歌手分类</div>
         </div>
         <div class="flex flex-col items-center justify-center" @click="gotoList">
-          <Icon class="font-size-40px color-blue" icon="icon-park-solid:record" />
+          <Icon class="font-size-40px color-blue" icon="icon-park-solid:record"/>
           <div class="font-size-12px color-black mt-6px">歌单分类</div>
         </div>
         <div class="flex flex-col items-center justify-center" @click="gotoMyPosition">
-          <Icon class="font-size-40px color-blue" icon="ri:road-map-fill" />
+          <Icon class="font-size-40px color-blue" icon="ri:road-map-fill"/>
           <div class="font-size-12px color-black mt-6px">我的位置</div>
         </div>
         <div class="flex flex-col items-center justify-center" @click="gotoOfflineMessage">
-          <Icon class="font-size-40px color-blue" icon="mdi:envelope" />
+          <Icon class="font-size-40px color-blue" icon="mdi:envelope"/>
           <div class="font-size-12px color-black mt-6px">离线留言</div>
         </div>
       </div>
@@ -69,9 +69,10 @@
 </template>
 
 <script>
-import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
+import { reactive, toRefs, ref, getCurrentInstance, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
+import { showConfirmDialog } from 'vant'
 
 export default {
   name: 'Home',
@@ -139,7 +140,19 @@ export default {
       router.push(`/home/play?id=${id}`)
     }
 
-    const gotoLogin = () => {
+    const onLoginClick = () => {
+      if (localStorage.getItem('userInfo')) {
+        showConfirmDialog({
+          title: '是否要退出登录',
+        }).then(() => {
+          localStorage.removeItem('userInfo')
+          router.push('/home/login')
+        }).catch(() => {
+        })
+
+        return
+      }
+
       router.push('/home/login')
     }
 
@@ -153,11 +166,15 @@ export default {
 
     onMounted(() => {
       getdata()
+    })
 
+    onActivated(() => {
       let userInfo = localStorage.getItem('userInfo')
       if (userInfo) {
         userInfo = JSON.parse(userInfo)
         data.userInfo = userInfo
+      } else {
+        data.userInfo = null
       }
     })
     return {
@@ -169,7 +186,7 @@ export default {
       gotoSinger,
       gotoList,
       gotoPlay,
-      gotoLogin,
+      onLoginClick,
       gotoMyPosition,
       gotoOfflineMessage,
     }
