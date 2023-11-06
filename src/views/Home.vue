@@ -106,6 +106,9 @@ export default {
       if (localStorage.getItem('recommend')) {
         data.recommendSongs = JSON.parse(localStorage.getItem('recommend'))
       }
+      if (localStorage.getItem('banners')) {
+        data.recommendPics = JSON.parse(localStorage.getItem('banners'))
+      }
 
       proxy.$axios.get(`${proxy.$apiBaseUrl}/personalized?limit=10`).then(res => {
         data.recommendLists = res.data.result
@@ -118,7 +121,9 @@ export default {
       // 获取banner
       proxy.$axios.get(`${proxy.$apiBaseUrl}/banner?type=1`).then(res => {
         const temp = res.data.banners.map(item => item.pic)
-        data.recommendPics = temp.length > 5 ? temp.slice(0, 5) : temp
+        const banners = temp.length > 5 ? temp.slice(0, 5) : temp
+        localStorage.setItem('banners', banners)
+        data.recommendPics = banners
       })
     }
 
