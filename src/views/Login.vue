@@ -86,6 +86,7 @@ const login = async () => {
             <div class="mt-16px px-16px w-full box-border pos-relative">
               <icon icon="mdi:user" class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
               <input
+                  v-model="phone"
                   placeholder="请输入账号"
                   type="text"
                   class="placeholder-color-gray-400 block h-45px box-border border-none px-22.5px pl-45px py-12px m-0 w-full b-rd-45px font-size-16px bg-gray-100"
@@ -94,6 +95,7 @@ const login = async () => {
             <div class="mt-16px px-16px w-full box-border pos-relative">
               <icon icon="mdi:password" class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
               <input
+                  v-model="password"
                   placeholder="请输入密码"
                   type="password"
                   class="placeholder-color-gray-400 block h-45px box-border border-none px-22.5px pl-45px py-12px m-0 w-full b-rd-45px font-size-16px bg-gray-100"
@@ -107,6 +109,7 @@ const login = async () => {
               <van-button
                   round
                   block
+                  @click="login"
               >登录
               </van-button>
             </div>

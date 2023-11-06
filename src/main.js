@@ -9,7 +9,7 @@ import 'vant/lib/index.css'
 const app = createApp(App)
 
 app.config.globalProperties.$axios = axios
-app.config.globalProperties.$apiBaseUrl = 'http://185.106.176.168:3000'
+app.config.globalProperties.$apiBaseUrl = 'https://term-project-h5-api.kejinginsurance.icu'
 
 router.afterEach((to, from) => {
   const toDepth = to.path.split('/').length
