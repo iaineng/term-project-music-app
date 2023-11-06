@@ -20,7 +20,7 @@ axios.interceptors.request.use(config => {
 
 
 app.config.globalProperties.$axios = axios
-app.config.globalProperties.$apiBaseUrl = 'http://192.168.235.175:3000'
+app.config.globalProperties.$apiBaseUrl = 'https://term-project-h5-api.kejinginsurance.icu'
 
 router.afterEach((to, from) => {
   const toDepth = to.path.split('/').length
