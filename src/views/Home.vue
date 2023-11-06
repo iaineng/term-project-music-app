@@ -122,7 +122,7 @@ export default {
       proxy.$axios.get(`${proxy.$apiBaseUrl}/banner?type=1`).then(res => {
         const temp = res.data.banners.map(item => item.pic)
         const banners = temp.length > 5 ? temp.slice(0, 5) : temp
-        localStorage.setItem('banners', banners)
+        localStorage.setItem('banners', JSON.stringify(banners))
         data.recommendPics = banners
       })
     }
