@@ -121,7 +121,7 @@ export default {
 </script>
 
 <template>
-  <div class="comment-box">
+  <div>
     <van-nav-bar
         title="离线留言"
         left-arrow
@@ -129,41 +129,42 @@ export default {
         fixed
         @click-left="$router.back()"
     />
-
-    <div class="comment-box_2 clearfix">
-      <table>
-        <tr>
-          <td style="width: 60px;vertical-align: top;">
-            <img height="50" width="50" :src="avatarUrl">
-          </td>
-          <td>
-            <textarea v-model="content" placeholder="请输入留言"></textarea>
-            <div>
-              <span class="tip" v-if="showError">请填写留言内容</span>
-              <img v-if="photo" :src="photo" class="photo"/>
-              <input type="button" value="留  言" class="input-button" @click="submitComment">
-              <input type="button" style="margin-right: 10px;" value="拍  照" class="input-button" @click="takePhoto">
+    <div class="comment-box">
+      <div class="comment-box_2 clearfix">
+        <table>
+          <tr>
+            <td style="width: 60px;vertical-align: top;">
+              <img height="50" width="50" :src="avatarUrl">
+            </td>
+            <td>
+              <textarea v-model="content" placeholder="请输入留言"></textarea>
+              <div>
+                <span class="tip" v-if="showError">请填写留言内容</span>
+                <img v-if="photo" :src="photo" class="photo"/>
+                <input type="button" value="留  言" class="input-button" @click="submitComment">
+                <input type="button" style="margin-right: 10px;" value="拍  照" class="input-button" @click="takePhoto">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="content">
+        <ul class="comment-list">
+          <li class="clearfix" v-for="comment in comments" :key="comment.id">
+            <img class="avatar" height="50" width="50" :src="comment.img">
+            <a class="s_4" href="javascript:void(0);">举报</a>
+            <div class="s_3">
+              <p class="p_1"><a class="user" target="blank">{{ comment.name }}</a><span class="date">{{
+                  comment.date
+                }}</span></p>
+              <p class="comment">
+                <img v-if="comment.photo" :src="comment.photo" class="photo"/>
+                <span>{{ comment.content }}</span>
+              </p>
             </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="content">
-      <ul class="comment-list">
-        <li class="clearfix" v-for="comment in comments" :key="comment.id">
-          <img class="avatar" height="50" width="50" :src="comment.img">
-          <a class="s_4" href="javascript:void(0);">举报</a>
-          <div class="s_3">
-            <p class="p_1"><a class="user" target="blank">{{ comment.name }}</a><span class="date">{{
-                comment.date
-              }}</span></p>
-            <p class="comment">
-              <img v-if="comment.photo" :src="comment.photo" class="photo"/>
-              <span>{{ comment.content }}</span>
-            </p>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
