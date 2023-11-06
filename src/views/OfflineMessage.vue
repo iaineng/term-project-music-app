@@ -97,7 +97,15 @@ const onSend = () => {
 const onTakePhotoClick = () => {
   plus.camera.getCamera().captureImage(function (path) {
     plus.io.resolveLocalFileSystemURL(path, function (entry) {
-      photo.value = entry.toRemoteURL()
+      // photo.value = entry.toRemoteURL()
+      entry.getFile(file => {
+        const reader = new plus.io.FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = e => {
+          photo.value = e.target.result.toString()
+          console.log(photo.value)
+        }
+      })
     }, function (error) {
       console.error('Resolve file URL failed: ' + error.message)
     })
