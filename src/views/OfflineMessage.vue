@@ -61,7 +61,7 @@ const onOpenSendActionSheet = () => {
 
 const onSend = () => {
   let nickName = '陌生人' + (new Date().getTime()) % 5
-  let avatar = ''
+  let avatar = 'https://p2.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg'
 
   let userInfo = localStorage.getItem('userInfo')
   if (userInfo) {
