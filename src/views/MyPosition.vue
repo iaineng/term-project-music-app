@@ -23,32 +23,21 @@ onMounted(async () => {
   })
 
   AMap.plugin([
-    'AMap.ToolBar',
     'AMap.Scale',
     'AMap.Geolocation',
-    'AMap.ControlBar',
   ], () => {
-    map.addControl(new AMap.ToolBar({
-      position: {
-        top: '110px',
-        right: '40px',
-      }
-    }))
     map.addControl(new AMap.Scale())
 
     const geolocation = new AMap.Geolocation({
       enableHighAccuracy: true,
       zoomToAccuracy: true,
-    })
-    geolocation.getCurrentPosition()
-    map.addControl(geolocation)
-
-    map.addControl(new AMap.ControlBar({
       position: {
         top: '10px',
         right: '10px',
       }
-    }))
+    })
+    geolocation.getCurrentPosition()
+    map.addControl(geolocation)
   })
 })
 </script>

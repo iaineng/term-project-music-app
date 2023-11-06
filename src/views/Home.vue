@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center pos-sticky top-0 bg-white z-99999">
       <div class="ml-16px font-size-14px" @click="gotoLogin">
         <div v-if="userInfo">
-          <img :src="userInfo.profile.avatarUrl" style="width: 44px; height: 44px; border-radius: 50%;"/>
+          <img :src="userInfo.profile.avatarUrl" class="w-34px h-34px b-rd-50%" />
         </div>
         <div v-else>登录</div>
       </div>
