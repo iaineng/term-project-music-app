@@ -96,14 +96,14 @@ const onSend = () => {
 
 const onTakePhotoClick = () => {
   plus.camera.getCamera().captureImage(function (path) {
+    console.log(path)
     plus.io.resolveLocalFileSystemURL(path, function (entry) {
-      // photo.value = entry.toRemoteURL()
-      entry.getFile(file => {
+      entry.file(file => {
+        console.log(JSON.stringify(file))
         const reader = new plus.io.FileReader()
         reader.readAsDataURL(file)
-        reader.onloadend = e => {
-          photo.value = e.target.result.toString()
-          console.log(photo.value)
+        reader.onloadend = ev => {
+          photo.value = ev.target.result
         }
       })
     }, function (error) {
