@@ -99,7 +99,6 @@ const onTakePhotoClick = () => {
     console.log(path)
     plus.io.resolveLocalFileSystemURL(path, function (entry) {
       entry.file(file => {
-        console.log(JSON.stringify(file))
         const reader = new plus.io.FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = ev => {
