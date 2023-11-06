@@ -103,11 +103,15 @@ export default {
     }
     // 推荐歌单
     const getdata = () => {
+      if (localStorage.getItem('recommend')) {
+        data.recommendSongs = JSON.parse(localStorage.getItem('recommend'))
+      }
+
       proxy.$axios.get(`${proxy.$apiBaseUrl}/personalized?limit=10`).then(res => {
         data.recommendLists = res.data.result
       })
       // 推荐音乐
-      proxy.$axios.get(`${proxy.$apiBaseUrl}/personalized/newsong?limit=10`).then(res => {
+      proxy.$axios.get(`${proxy.$apiBaseUrl}/personalized/newsong`).then(res => {
         data.recommendSongs = res.data.result
         localStorage.setItem('recommend', JSON.stringify(data.recommendSongs))
       })
