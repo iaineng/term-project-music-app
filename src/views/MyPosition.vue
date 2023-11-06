@@ -2,8 +2,6 @@
 import { loadJs } from '@/utils/utils'
 import { onMounted, ref } from 'vue'
 
-const elMap = ref(null)
-
 onMounted(async () => {
   if (!window.AMapLoader) {
     window._AMapSecurityConfig = {
@@ -56,20 +54,18 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="my-position-page">
-    <div class="my-position-page_map" id="my-position-page_map" ref="elMap"></div>
+  <div class="flex flex-col w-screen min-h-screen">
+    <van-nav-bar
+        title="我的位置"
+        left-arrow
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
+    <div class="w-full flex-1" id="my-position-page_map"></div>
   </div>
 </template>
 
 <style scoped>
-.my-position-page {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.my-position-page_map {
-  width: 100%;
-  height: 100%;
-}
 </style>

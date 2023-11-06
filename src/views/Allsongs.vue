@@ -1,5 +1,12 @@
 <template>
   <div class="allsongs" style="min-height: 100vh; background: white;">
+    <van-nav-bar
+        left-arrow
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
     <div v-for="(item,index) in songs" :key="index" class="song">
       <span>{{ index + 1 }}</span>
       {{ item.name }}

@@ -1,5 +1,13 @@
 <template>
   <div class="list" style="min-height: 100vh; background: white;">
+    <van-nav-bar
+        title="歌单分类"
+        left-arrow
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
     <div class="cate">
       <div>{{categories[0]}}</div>
       <div>{{categories[1]}}</div>

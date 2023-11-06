@@ -122,6 +122,14 @@ export default {
 
 <template>
   <div class="comment-box">
+    <van-nav-bar
+        title="离线留言"
+        left-arrow
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
     <div class="comment-box_2 clearfix">
       <table>
         <tr>

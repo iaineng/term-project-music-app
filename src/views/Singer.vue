@@ -1,5 +1,13 @@
 <template>
   <div class="singer" style="min-height: 100vh; background: white;">
+    <van-nav-bar
+        title="歌手分类"
+        left-arrow
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
     <div class="flex-center selectbtn">
       <van-button type="primary" @click="setType(-1)">全部</van-button>
       <van-button type="success" @click="setType(1)">男歌手</van-button>
@@ -13,7 +21,7 @@
         class="singeritem"
         @click="gotoAllsongs(item.id)"
       >
-        <img :src="item.picUrl" />
+        <img :src="`${item.picUrl}?imageView=1&type=webp&thumbnail=512x0`" />
         <div class="name">{{item.name}}</div>
       </div>
     </div>
@@ -57,7 +65,7 @@ export default {
     return {
       ...toRefs(data),
       setType,
-      gotoAllsongs
+      gotoAllsongs,
     };
   },
 }

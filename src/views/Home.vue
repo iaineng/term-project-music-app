@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-screen bg-white">
     <div class="flex justify-between items-center pos-sticky top-0 bg-white z-99999">
-      <div class="ml-20px font-size-14px" @click="gotoLogin">
+      <div class="ml-16px font-size-14px" @click="gotoLogin">
         <div v-if="userInfo">
           <img :src="userInfo.profile.avatarUrl" style="width: 44px; height: 44px; border-radius: 50%;"/>
         </div>
         <div v-else>登录</div>
       </div>
-      <form action="/" style="flex: 1;margin-right: 12px;">
+      <form action="/" class="flex-1 mr-8px">
         <van-search
             v-model="value"
             show-action
@@ -18,18 +18,30 @@
       </form>
     </div>
     <div class="home">
-      <div style="margin: 0 20px;border-radius: 20px;overflow: hidden;">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <div class="mx-16px b-rd-16px overflow-hidden">
+        <van-swipe class="my-swipe w-full" :autoplay="3000" indicator-color="white">
           <van-swipe-item v-for="(item,index) in recommendPics" :key="index">
-            <img :src="item"/>
+            <img :src="item" class="w-full h-full"/>
           </van-swipe-item>
         </van-swipe>
       </div>
-      <div class="cate">
-        <div class="singer flex-center" @click="gotoSinger">歌手分类</div>
-        <div class="list flex-center" @click="gotoList">歌单分类</div>
-        <div class="list flex-center" @click="gotoMyPosition">我的位置</div>
-        <div class="list flex-center" @click="gotoOfflineMessage">离线留言</div>
+      <div class="flex mx-16px py-16px justify-between">
+        <div class="flex flex-col items-center justify-center" @click="gotoSinger">
+          <Icon class="font-size-40px color-blue" icon="solar:microphone-bold" />
+          <div class="font-size-12px color-black mt-6px">歌手分类</div>
+        </div>
+        <div class="flex flex-col items-center justify-center" @click="gotoList">
+          <Icon class="font-size-40px color-blue" icon="icon-park-solid:record" />
+          <div class="font-size-12px color-black mt-6px">歌单分类</div>
+        </div>
+        <div class="flex flex-col items-center justify-center" @click="gotoMyPosition">
+          <Icon class="font-size-40px color-blue" icon="ri:road-map-fill" />
+          <div class="font-size-12px color-black mt-6px">我的位置</div>
+        </div>
+        <div class="flex flex-col items-center justify-center" @click="gotoOfflineMessage">
+          <Icon class="font-size-40px color-blue" icon="mdi:envelope" />
+          <div class="font-size-12px color-black mt-6px">离线留言</div>
+        </div>
       </div>
       <div class="song-wrap">
         <div class="song" v-for="(item,index) in recommendSongs" :key="item.id">
@@ -59,10 +71,13 @@
 <script>
 import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    Icon,
+  },
   setup() {
     let { proxy } = getCurrentInstance()
     const router = useRouter()

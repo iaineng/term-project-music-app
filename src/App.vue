@@ -8,13 +8,14 @@ const cacheViews = reactive(new Set())
 
 router.beforeEach((to, from, next) => {
   if (from.name) {
-    if (to.path.split('/').length > from.path.split('/').length) {
+    const toDepth = to.path.split('/').length
+    const fromDepth = from.path.split('/').length
+    if (toDepth > fromDepth) {
       cacheViews.add(from.name)
     } else {
       cacheViews.delete(from.name)
     }
   }
-  console.log(cacheViews)
   next()
 })
 
@@ -62,6 +63,11 @@ document.addEventListener('plusready', onPlusReady)
 </template>
 
 <style>
+:root {
+  --van-nav-bar-icon-color: black !important;
+  --van-nav-bar-arrow-size: 20px !important;
+}
+
 .slide-right-enter-active,
 .slide-left-enter-active,
 .slide-right-leave-active,

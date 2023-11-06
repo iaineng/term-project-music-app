@@ -1,23 +1,14 @@
-<template>
-  <div class="login-page" style="min-height: 100vh; background: white;">
-    <div class="form">
-      <h1>登录</h1>
-      <form @submit.prevent="login">
-        <input type="text" id="phone" v-model="phone" placeholder="手机号" required/>
-        <input type="password" id="password" v-model="password" placeholder="密码" required/>
-        <button type="submit">login</button>
-      </form>
-    </div>
-  </div>
-</template>
 <script setup>
 import router from '@/router'
 import { getCurrentInstance, ref } from 'vue'
 import axios from 'axios'
+import { Icon } from '@iconify/vue'
+import Page from '@/components/page/index.vue'
 
 const { proxy } = getCurrentInstance()
 const phone = ref('')
 const password = ref('')
+const mode = ref('login')
 
 const login = async () => {
   const response = await axios.get(`${proxy.$apiBaseUrl}/login/cellphone`, {
@@ -33,110 +24,236 @@ const login = async () => {
   await router.back()
 }
 </script>
-<style scoped>
-.login-page {
-  padding: 8% 0 0;
-  margin: auto;
+
+<template>
+  <page>
+    <div class="area">
+      <ul class="circles">
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-80px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-20px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-20px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-60px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-20px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-110px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-150px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-25px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-15px color-blue text-opacity-20"/>
+        </li>
+        <li>
+          <icon icon="mingcute:disc-fill" class="font-size-150px color-blue text-opacity-20"/>
+        </li>
+      </ul>
+    </div>
+
+    <van-nav-bar
+        left-arrow
+        :border="false"
+        placeholder
+        fixed
+        @click-left="$router.back()"
+    />
+
+    <div class="pos-relative z-1">
+      <transition>
+        <div v-if="mode === 'login'">
+          <div class="flex items-center mt-32px ml-16px font-bold font-size-26px">
+            <icon class="font-size-28px" icon="fluent-emoji:waving-hand"/>
+            你好！欢迎来到
+          </div>
+          <div class="mt-8px flex flex-col items-center">
+            <div class="font-size-38px font-bold">
+              <span class="mr-16px color-blue">Music</span>
+              <span>App</span>
+            </div>
+
+            <div class="mt-16px px-16px w-full box-border pos-relative">
+              <icon icon="mdi:user" class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
+              <input
+                  placeholder="请输入账号"
+                  type="text"
+                  class="placeholder-color-gray-400 block h-45px box-border border-none px-22.5px pl-45px py-12px m-0 w-full b-rd-45px font-size-16px bg-gray-100"
+              />
+            </div>
+            <div class="mt-16px px-16px w-full box-border pos-relative">
+              <icon icon="mdi:password" class="pos-absolute font-size-28px color-gray-400 top-8.5px left-27.25px"/>
+              <input
+                  placeholder="请输入密码"
+                  type="password"
+                  class="placeholder-color-gray-400 block h-45px box-border border-none px-22.5px pl-45px py-12px m-0 w-full b-rd-45px font-size-16px bg-gray-100"
+              />
+            </div>
+            <div class="box-border mt-24px flex justify-end w-full pr-16px">
+              <div class="font-size-14px color-gray-400">没有账号？</div>
+              <div class="font-size-14px color-gray-400 font-bold">注册</div>
+            </div>
+            <div class="mt-8px px-16px w-full box-border">
+              <van-button
+                  round
+                  block
+              >登录
+              </van-button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div>
+
+          </div>
+        </div>
+      </transition>
+    </div>
+  </page>
+</template>
+
+<style scoped lang="less">
+:deep(.van-nav-bar) {
+  background: transparent;
 }
 
-.form {
-  position: relative;
-  z-index: 1;
-  margin: 0 auto 100px;
-  padding: 65px 45px 45px 45px;
-  text-align: center;
+:deep(.van-button) {
+  border: none;
+  background: black;
+  color: white;
 }
 
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
+:deep(.van-button__text) {
+  font-size: 16px;
+}
+
+.area {
+  top: 0;
+  left: 0;
+  position: absolute;
   width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
+  height: 100vh;
+  z-index: 0;
 }
 
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
+.circles {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  cursor: pointer;
+  height: 100%;
+  overflow: hidden;
 }
 
-.form button:hover, .form button:active, .form button:focus {
-  background: #43A047;
-}
-
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-
-.form .register-form {
-  display: none;
-}
-
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-.container:before, .container:after {
-  content: "";
+.circles li {
+  position: absolute;
   display: block;
-  clear: both;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  //background: rgba(96, 165, 250, .5);
+  animation: animate 25s linear infinite;
+  bottom: -150px;
 }
 
-.container .info {
-  margin: 50px auto;
-  text-align: center;
+.circles li:nth-child(1) {
+  left: 25%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
 }
 
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
+
+.circles li:nth-child(2) {
+  left: 10%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 2s;
+  animation-duration: 12s;
 }
 
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
+.circles li:nth-child(3) {
+  left: 70%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 4s;
 }
 
-.container .info span a {
-  color: #000000;
-  text-decoration: none;
+.circles li:nth-child(4) {
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+  animation-duration: 18s;
 }
 
-.container .info span .fa {
-  color: #EF3B3A;
+.circles li:nth-child(5) {
+  left: 65%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
 }
 
-body {
-  background: #76b852; /* fallback for old browsers */
-  background: rgb(141, 194, 111);
-  background: linear-gradient(90deg, rgba(141, 194, 111, 1) 0%, rgba(118, 184, 82, 1) 50%);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.circles li:nth-child(6) {
+  left: 75%;
+  width: 110px;
+  height: 110px;
+  animation-delay: 3s;
+}
+
+.circles li:nth-child(7) {
+  left: 35%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 7s;
+}
+
+.circles li:nth-child(8) {
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  animation-delay: 15s;
+  animation-duration: 45s;
+}
+
+.circles li:nth-child(9) {
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  animation-delay: 2s;
+  animation-duration: 35s;
+}
+
+.circles li:nth-child(10) {
+  left: 85%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 0s;
+  animation-duration: 11s;
+}
+
+
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
 }
 </style>
