@@ -82,7 +82,7 @@ const onSend = () => {
     nickName,
     createdAt: new Date().toLocaleString(),
     message: message.value.trim(),
-    img: 'https://fastly.jsdelivr.net/npm/@vant/assets/logo.png'
+    img: photo.value
   }
   storeData(data)
 
